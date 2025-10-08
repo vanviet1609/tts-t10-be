@@ -14,7 +14,14 @@ export const registerController = async (req, res) => {
     // validation
 
     // kiem tra xem co chua?
-
+    const username = req.body;
+    const checkUserExist = await User.findOne({ username });
+    if (!checkUserExist) {
+      return res.status(400).json({
+        message: 'Username da ton tai',
+        success: false
+      })
+    }
     // tao user
     // console.log(req.body.password);
     // const {username,email} = req.body;
@@ -22,6 +29,7 @@ export const registerController = async (req, res) => {
     // console.log(hashPass);
     const user = await User.create(req.body);
     // console.log(user);
+    
     if (!user) {
       return res.status(400).json({
         message: "khong the dang ky tai khoan, vui long kiem tra lai",
